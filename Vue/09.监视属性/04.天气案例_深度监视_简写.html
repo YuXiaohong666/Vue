@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+
+<body>
+  <!-- 深度监视
+          1.Vue中的watch默认不监测对象内部值得改变
+          2.配合deep:true可以监测对象内部值改变
+      备注：
+          1.Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以
+          2.使用watch时根据数据的具体结构，决定是否采用深度监视
+  -->
+  <div id="root">
+    <h2>今天天气很{{info}}</h2>
+    <button @click="changeWeather">切换天气</button>
+  </div>
+</body>
+<script>
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      isHot: true
+    },
+    methods: {
+      changeWeather () {
+        this.isHot = !this.isHot
+      }
+    },
+    computed: {
+      info () {
+        return this.isHot ? '炎热' : '凉爽'
+      }
+    },
+    // 监视属性
+    watch: {
+      // isHot: {
+      //   // deep: true,深度监视
+      //   //当isHot发生改变时，调用handler，括号中的两个参数分别是改变后的值和改变前的值
+      //   handler (newValue, oldValue) {
+      //     console.log('isHot被修改了。', newValue, oldValue);
+      //   }
+      // },
+      // 简写，使用简写方式就不可以再配置deep和immediate属性了
+      // isHot (newValue, oldValue) {
+      //   console.log('isHot被修改了。', newValue, oldValue);
+      // }
+    }
+  })
+  // 在外部配置的简写方式
+  vm.$watch('isHot', function (newValue, oldValue) {
+    console.log('isHot被修改了。', newValue, oldValue);
+  })
+</script>
+
+</html>

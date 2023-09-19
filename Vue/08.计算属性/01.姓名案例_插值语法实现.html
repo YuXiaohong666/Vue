@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+
+<body>
+<div id="root">
+    姓：<input type="text" v-model:value="firstName"><br><br>
+    名：<input type="text" v-model:value="lastName"><br><br>
+    <!-- 如果想要截取输入框的前三位，则要使用到slice这个API -->
+    全名：<span>{{firstName.slice(0, 3)}}-{{lastName}}</span>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            firstName: '',
+            lastName: ''
+        }
+    })
+</script>
+
+</html>

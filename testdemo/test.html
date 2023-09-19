@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            let ball = document.getElementById("demo");
+            setInterval(() => {
+                ball.style.position = "absolute"
+                ball.style.left = "100px"
+                setTimeout(() => {
+                    ball.style.left = "0px"
+                }, 250)
+            }, 500)
+        }
+
+    </script>
+</head>
+<body>
+<div id="demo">口</div>
+</body>
+</html>

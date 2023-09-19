@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h2 v-text="n">当前的n值是：{{n}}</h2>
+    <h2>当前的n值是：{{n}}</h2>
+    <button @click="add">点我n+1</button>
+    <button @click="bye">点我销毁vm</button>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            n: 1
+        },
+        methods: {
+            add() {
+                this.n++
+            },
+            bye() {
+                console.log('bye')
+                // 完全销毁一个实例，清理它与其它实例之间的连接，解绑它的全部指令及事件监听器
+                // 在销毁之前，一般进行如下操作：关闭定时器、取消订阅消息、解绑自定义时间等首尾操作。
+                this.$destroy()
+            }
+        },
+        // 第一个生命周期函数：此时Vue还没有获取到data中的数据和methods中的方法
+        beforeCreate() {
+            console.log('beforeCreate')
+            console.log(this)
+            // 使用debugger创造断点进行程序调试
+            // debugger
+        },
+        // 第二个生命周期函数，此时Vue可以通过vm访问到data中的数据，methods中的方法
+        created() {
+            console.log('created')
+            console.log(this)
+            // debugger
+        },
+        // 第三个生命周期函数，挂载之前，页面呈现的是未经Vue编译的DOM结构，所有对DOM的操作，最终都是不奏效的
+        beforeMount() {
+            console.log('beforeMount')
+            console.log(this)
+            // debugger
+        },
+        // 第四个生命周期函数，此时页面呈现的是经过Vue编译的DOM结构
+        mounted() {
+            // 一般在此进行：开启定时器、发送网络请求、订阅消息、绑定自定义事件等初始化操作
+            console.log('mounted')
+            console.log(this, this.$el, this.$el instanceof HTMLElement)//true 确实是真实DOM
+            // debugger
+        },
+        // 第五个生命周期函数，更新数据之前，数据是新的，页面还是旧的，即页面还没有更新
+        beforeUpdate() {
+            console.log('beforeUpadate')
+            console.log(this.n)
+            // debugger
+        },
+        // 第六个生命周期函数，更新数据之后，数据是新的，页面也是新的
+        updated() {
+            console.log('updated')
+            // debugger
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy')
+        },
+        destroyed() {
+            console.log('destroyed')
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h1>学校信息</h1>
+    <h2>学校名称：{{name}}</h2>
+    <h2>学校地址：{{address}}</h2>
+    <hr>
+    <h1>学生信息</h1>
+    <button @click="add">添加一个sex属性，默认值为男</button>
+    <h2>学生姓名：{{student.name}}</h2>
+    <h2>学生年龄：{{student.age}}</h2>
+    <h2 v-if="student.sex">学生性别：{{student.sex}}</h2>
+    <h2>朋友们：</h2>
+    <ul>
+        <li v-for="p in student.friends">姓名：{{p.name}}-年龄：{{p.age}}</li>
+    </ul>
+    <!--    对于数组中的元素，进行添加，因为Vue没有为每个单独的元素匹配setter和getter，所以在修改之后页面不会进行更新-->
+    <!--    但是只有使用push、pop、shift、unshift、splice、sort、reverse这些方法进行修改元素的时候，Vue才会实时更新页面-->
+    <!--    使用set方法更新数组，vm.$set(vm.student.hobby,0,'学习')，表示在hobby数组的第一位改为学习，此效果为实时更新页面-->
+    <h2>爱好：</h2>
+    <ul>
+        <li v-for="(h,index) in student.hobby">爱好{{index + 1}}：{{h}}</li>
+    </ul>
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            name: '河地大',
+            address: '石家庄裕华区',
+            student: {
+                name: '小红',
+                age: 23,
+                friends: [
+                    {name: '小杰', age: 23},
+                    {name: '小菜', age: 22}
+                ],
+                hobby: ['APEX', 'PUBG', 'LOL']
+            },
+
+        },
+        methods: {
+            add() {
+                // set方法不能直接在vm和vm.data身上添加数据，会报错
+                // Vue.set(this.student, 'sex', '男')
+                this.$set(this.student, 'sex', '男')
+            }
+        }
+    })
+</script>
+</html>

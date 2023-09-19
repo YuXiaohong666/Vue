@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <app></app>
+</div>
+</body>
+<script>
+    const student = Vue.extend({
+        template: `
+          <div>
+          <h2>学生姓名：{{ name }}</h2>
+          <h2>学生年龄：{{ age }}</h2>
+          </div>
+        `,
+        data() {
+            return {
+                name: '小红',
+                age: 23
+            }
+        }
+    })
+    // 定义school组件
+    const school = Vue.extend({
+        // 可以使用name配置项更改在Vue开发者工具中标签的名字
+        name: 'name',
+        template: `
+          <div>
+          <h2>学校名称：{{ name }}</h2>
+          <h2>学校地址：{{ address }}</h2>
+          <student></student>
+          </div>
+        `,
+        data() {
+            return {
+                name: 'GEO',
+                address: '石家庄'
+            }
+        },
+        components: {
+            student
+        }
+    })
+    // 定义一个hello组件
+    const hello = Vue.extend({
+        template: `<h1>{{ msg }}</h1>`,
+        data() {
+            return {
+                msg: '欢迎来到'
+            }
+        }
+    })
+
+    // 定义app组件
+    const app = Vue.extend({
+        components: {
+            template: `
+                <div>
+                    <hello></hello>
+                    <school></school>
+                </div>
+            `,
+            // 不需要再加上student，已经被school所管理了
+            school,
+            hello
+        }
+    })
+
+
+    // 创建vm
+    new Vue({
+        el: '#root',
+        // 注册组件
+        components: {app}
+    })
+</script>
+</html>

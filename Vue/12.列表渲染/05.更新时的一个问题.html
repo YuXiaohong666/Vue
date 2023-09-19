@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+
+<body>
+<div id="root">
+    <h2>人员列表</h2>
+    <button @click="updateMei">更新马冬梅的信息</button>
+    <ul>
+        <li :key="p.id" v-for="p in personList">
+            {{p.name}}-{{p.age}}-{{p.sex}}
+        </li>
+    </ul>
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            personList: [
+                {id: '001', name: '马冬梅', age: 18, sex: '女'},
+                {id: '002', name: '周冬雨', age: 19, sex: '女'},
+                {id: '003', name: '周杰伦', age: 21, sex: '男'},
+                {id: '004', name: '温兆伦', age: 20, sex: '男'}
+            ]
+        },
+        methods: {
+            updateMei() {
+                // 没有问题
+                // this.personList[0].name = '马老师'
+                // this.personList[0].age = 50
+                // this.personList[0].sex = '男'
+
+                // 有问题，无法更新
+                this.personList[0] = {id: '001', name: '马老师', age: 69, sex: '男'}
+            }
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="../../JS/vue.js"></script>
+<style>
+    *{
+        margin-top: 20px;
+    }
+    .demo1{
+        background-color: aqua;
+    }
+    .box1{
+        padding:5px;
+        background-color: aqua;
+    }
+    .box2{
+        padding: 5px;
+        background-color: gold;
+    }
+    .list{
+        width: 200px;
+        height: 200px;
+        background-color: silver;
+        overflow: auto;
+    }
+    /* 由于子元素总高度高于父元素，会从父元素中溢出，所以需要加一个滚动条 */
+    li{
+        height: 100px;
+    }
+</style>
+<body>
+    <!-- Vue中的事件修饰符：
+            1.prevent：阻止默认事件（常用）
+            2.stop：阻止事件冒泡（常用）
+            3.once：事件只触发一次（常用）
+            4.capture：使用事件的捕获模式
+            5.self：只有event.target是当前操作的元素时才触发事件
+            6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕
+            最后，修饰符是可以连着写的比如：.stop.passive
+    -->
+    <div id="root">
+        <h1>欢迎来到{{name}}</h1>
+        <!-- 绑定了点击事件之后发现在弹出提示之后还会跳转到指定的网站去
+            所以我们可以进行
+        -->
+        <!-- 阻止默认事件（常用） -->
+        <a href="https://yuxiaohong.cn" @click.prevent='showInfo'>点我去我的博客</a>
+        <!-- 阻止事件冒泡（常用） -->
+        <!-- 点击内部按钮时会弹出一次提示，点击后外层div也会弹出一层提示，即冒泡 -->
+        <div class="demo1" @click="showInfo">
+            <button @click.stop="showInfo">点我提示信息</button>
+        </div>
+        <!-- 事件只触发一次（常用） -->
+        <button @click.once="showInfo">点我提示信息</button>
+        <!-- 使用事件的捕获模式 -->
+        <!-- 先捕获后冒泡，在冒泡阶段处理事件，使用capture就可以在捕获阶段处理事件 -->
+        <div class="box1" @click.capture="showMsg(1)">
+            div1
+            <div class="box2" @click="showMsg(2)">
+                div2
+            </div>
+        </div>
+        <!-- 只有event.target是当前操作的元素时才触发事件 -->
+        <!-- 在控制台我们可以看到点击按钮出来的两个event.target都是按钮，而没有div，所以在外层div加上修饰符self就可以不让他执行函数
+            从一定程度来说也实现了停止冒泡的效果
+         -->
+        <div class="demo1" @click.self="showInfo">
+            <button @click="showInfo">点我提示信息</button>
+        </div>
+        <!-- 事件的默认行为立即执行，无需等待事件回调执行完毕 -->
+        <!-- 绑定滚动事件，scroll滚动滚轮，就会触发事件，直到滚动条到尽头，wheel只要滚动鼠标滚轮就会触发事件，无论滚动条是否到达尽头 -->
+        <!-- 在滚动滚轮之后，由于回调函数过于繁琐，所以会会发生回调函数长时间执行，执行完之后滚动条才会发生变化，加上passive就会变成异步操作，回调函数执行的同时，滚动条就会发生变化 -->
+        <ul @wheel.passive="demo" class="list">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            name:'河北地质大学'
+        },
+        methods:{
+            showInfo(e){
+                console.log(e);
+                console.log(e.target);
+                //可以阻止a标签原本的跳转功能，在标签里可以直接使用
+                // e.preventDefault();
+                // 可以阻止外层继续冒泡行为，在标签里可以直接使用
+                // e.stopPropagation();
+                // alert('你好')
+            },
+            showMsg(msg){
+                console.log(msg);
+                // aler('你好')            
+            },
+            demo(){
+                for (let i = 0; i < 100000; i++) {
+                    console.log('@');                    
+                }
+                
+            }
+        }
+    })
+</script>
+</html>

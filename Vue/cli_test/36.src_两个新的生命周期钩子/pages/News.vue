@@ -1,0 +1,44 @@
+<template>
+  <ul>
+    <li :style="{opacity}">欢迎学习Vue</li>
+    <li>news001 <input type="text"></li>
+    <li>news002 <input type="text"></li>
+    <li>news003 <input type="text"></li>
+  </ul>
+</template>
+
+<script>
+
+export default {
+  name: "NewS",
+  beforeDestroy() {
+
+  },
+  data() {
+    return {
+      opacity: 1
+    }
+  },
+  // 激活
+  activated() {
+    console.log('news组件被激活了')
+    this.timer = setInterval(() => {
+      console.log('@')
+      this.opacity -= 0.01
+      if (this.opacity <= 0) {
+        this.opacity = 1
+      }
+    }, 16)
+  },
+  // 失活
+  deactivated() {
+    console.log('news组件失活了')
+    console.log('News组件即将被销毁')
+    clearInterval(this.timer)
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+<body>
+<!--Vue中使用组件的三大步骤：
+        一、定义组件：（创建组件）
+        二、注册组件
+        三、使用组件
+
+    一、如何定义一个组件？
+        使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但也有区别
+        区别如下：
+            1.el不要写，因为最终所有的组件都要经过一个vm的管理，由vm中的el决定服务哪个容器
+            2.data中必须写成函数，避免组件复用时，数据存在引用关系
+        备注，使用template时可以配置组件结构
+
+    二、如何注册组件？
+        1.局部注册：靠new Vue的时候传入componets选项
+        2.全局注册：靠Vue.componets('组件名',组件)
+
+    三、编写组件标签：
+        <school></school>
+-->
+<div id="root">
+    <!--    第三步：编写组件标签-->
+    <school></school>
+    <hr>
+    <student></student>
+</div>
+</body>
+<script>
+    // 第一步创建组件
+    // 创建school组件
+    const school = Vue.extend({
+        // el: '#root',  组件没有资格使用el配置项，且最终所有组件都要被一个vm管理，由vm决定服务于哪个容器
+        template: `
+          <div>
+          <h2>学校名称：{{ school.name }}</h2>
+          <h2>学校地址：{{ school.address }}</h2>
+          <button @click="showName">点我提示学校名</button>
+          </div>`,
+        // data数据必须使用函数式
+        data() {
+            return {
+                school: {
+                    name: 'GEO',
+                    address: '石家庄'
+                }
+            }
+        },
+        methods: {
+            showName() {
+                alert(this.school.name)
+            }
+        }
+    })
+
+    // 创建student组件
+    const student = Vue.extend({
+        // el: '#root',  组件没有资格使用el配置项，且最终所有组件都要被一个vm管理，由vm决定服务于哪个容器
+        template: `
+          <div>
+          <h2>学生姓名：{{ student.name }}</h2>
+          <h2>学生年龄：{{ student.age }}</h2>
+          </div>`,
+        // data数据必须使用函数式
+        data() {
+            return {
+                student: {
+                    name: '小红',
+                    age: 23
+                }
+            }
+        }
+    })
+
+    // 全局注册组件
+    Vue.component('hello', hello)
+    // 创建vm
+
+    new Vue({
+        el: '#root',
+        // 第二步:注册组件（局部注册）
+        components: {
+            school,
+            student
+        }
+    })
+</script>
+</html>
